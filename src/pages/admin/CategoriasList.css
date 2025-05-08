@@ -1,0 +1,116 @@
+.categoria-container {
+    max-width: 600px;
+    margin: 80px auto;
+    background: white;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  .categoria-title {
+    font-size: 32px;
+    color: #333;
+    margin-bottom: 30px;
+  }
+  
+  .categoria-list {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .categoria-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f9f9f9;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .categoria-item span {
+    font-size: 18px;
+    color: #333;
+  }
+  
+  .categoria-button {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+  }
+  
+  .categoria-button i {
+    margin-right: 8px;
+  }
+  
+  .categoria-button:focus {
+    outline: none;
+  }
+  
+  .add-button {
+    background-color: #4facfe;
+    width: 100%;
+    max-width: 300px;
+    margin: 30px auto 10px;
+    display: block;
+  }
+  
+  .add-button:hover {
+    background-color: #3a9ded;
+    transform: scale(1.05);
+  }
+  
+  .delete-button {
+    background-color: #e74c3c;
+    font-size: 14px;
+    padding: 5px 10px;
+  }
+  
+  .delete-button:hover {
+    background-color: #c0392b;
+    transform: scale(1.05);
+  }
+  
+  .delete-button:focus {
+    outline: none;
+  }
+  
+  .back-button {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin: 20px auto 0;
+    display: block;
+    transition: background 0.3s ease, transform 0.2s ease;
+  }
+  
+  .back-button:hover {
+    background-color: #c0392b;
+    transform: scale(1.05);
+  }
+  
+  .back-button i {
+    margin-right: 6px;
+  }
+  
+  @media (min-width: 768px) {
+    .categoria-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+  }
+  

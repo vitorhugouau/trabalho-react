@@ -1,10 +1,41 @@
 import React from 'react';
-
+import { useNavigate } from 'react-router-dom'; 
+import './Dashboard.css'; 
 export default function Dashboard() {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem('token'); 
+    navigate('/'); 
+  };
+
+  const handleCategoria = () => {
+    navigate('/admin/categorias')
+  }
+
   return (
-    <div>
-      <h1>Painel Administrativo</h1>
-      {/* Conteúdo do Dashboard */}
+    <div className="dashboard-container">
+      <h1 className="dashboard-title">
+        <i className="fas fa-tachometer-alt"></i> Painel Administrativo
+      </h1>
+
+      <div className="dashboard-buttons">
+        <button className="dashboard-button" onClick={handleCategoria}>
+          <i className="fas fa-tags"></i> Categorias
+        </button>
+
+        <button className="dashboard-button">
+          <i className="fas fa-cogs"></i> Produtos
+        </button>
+
+        <button className="dashboard-button">
+          <i className="fas fa-chart-line"></i> Vendas
+        </button>
+      </div>
+
+      <button className="logout-button" onClick={handleLogout}>
+        <i className="fas fa-sign-out-alt"></i> Logout
+      </button>
     </div>
   );
 }
