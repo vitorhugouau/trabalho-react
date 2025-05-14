@@ -3,7 +3,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import './LoginForm.css'; 
 
-export default function Login() {
+const Login = () => {
   const { login } = useAuth(); 
   const [usuario, setUsuario] = useState(''); 
   const [senha, setSenha] = useState(''); 
@@ -66,3 +66,4 @@ export default function Login() {
     </form>
   );
 }
+export default Login;

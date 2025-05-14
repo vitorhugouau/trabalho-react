@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import api from '../../services/api';
 import './RegisterForm.css';
 
-export default function Registro() {
+const Registro = () => {
   const [usuario, setUsuario] = useState('');
   const [senha, setSenha] = useState('');
   const [confirma, setConfirma] = useState('');
@@ -98,3 +98,5 @@ export default function Registro() {
     </div>
   );
 }
+
+export default Registro;

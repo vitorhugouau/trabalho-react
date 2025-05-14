@@ -1,32 +1,51 @@
 import { useState } from 'react';
-import { useCategoria } from '../../contexts/CategoriaContext';
+import { useCategoria } from '../../../contexts/CategoriaContext';
 import './CategoriasForm.css';
 import { useNavigate } from 'react-router-dom';
+import api from '../../../services/api';
 
-export default function CategoriaForm() {
-  const { adicionarCategoria, listarCategorias } = useCategoria();
+const CategoriaForm = () => {
+  // const { adicionarCategoria, listarCategorias } = useCategoria();
   const [nome, setNome] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
+  const listarCategorias = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await api.get('/app/categorias');
+      setCategorias(response.data);
+    } catch (err) {
+      setError("Erro ao carregar categorias");
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    setLoading(true)
+    setError(null)
+
+    console.log("Aaaaaaaaaaaaaaaa")
 
     if (!nome.trim()) {
       setError('O nome da categoria é obrigatório.');
       return;
     }
-
     try {
-      await adicionarCategoria({ nome });
-      listarCategorias();
-      setNome('');
-      setError('');
-      setSuccess('Categoria adicionada com sucesso!');
+      await api.post('/app/categorias', {
+        nome_categoria: nome
+      })
+      alert("caiu")
     } catch (err) {
-      setError('Erro ao adicionar categoria.');
-      setSuccess('');
+      setError("Erro ao carregar categorias");
+      console.error(err);
+    }finally{
+      setLoading(false)
     }
   };
 
@@ -41,7 +60,8 @@ export default function CategoriaForm() {
       {error && <p className="error-message">{error}</p>}
       {success && <p className="success-message">{success}</p>}
 
-      <form onSubmit={handleSubmit}>
+      {/* <form onSubmit={handleSubmit}> */}
+      <div>
         <input
           type="text"
           value={nome}
@@ -50,13 +70,15 @@ export default function CategoriaForm() {
           className="input-field"
           required
         />
-        <button type="submit" className="submit-button">
+        <button onClick={handleSubmit} type="submit" className="submit-button">
           <i className="fas fa-plus"></i> Adicionar
         </button>
-      </form>
+      </div>
         <button onClick={handleVoltar} className="back-button">
           <i className="fas fa-arrow-left"></i> Voltar
         </button>
     </div>
   );
 }
+
+export default CategoriaForm;

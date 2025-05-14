@@ -4,5 +4,5 @@ import { useAuth } from '../contexts/AuthContext';
 export default function PrivateRoute({ children }) {
   const { token } = useAuth();
 
-  return token ? children : <Navigate to="/admin/login" />;
+  return token ? children : <Navigate to="/" />;
 }

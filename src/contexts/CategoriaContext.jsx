@@ -12,12 +12,11 @@ export function CategoriaProvider({ children }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Função para listar categorias
   const listarCategorias = useCallback(async () => {
     setLoading(true);
     try {
-      const response = await api.get('/categorias');  // Alterar para o endpoint correto
-      setCategorias(response.data);  // Assume que o backend retorna uma lista de categorias
+      const response = await api.get('/categorias');  
+      setCategorias(response.data);  
     } catch (err) {
       setError("Erro ao carregar categorias");
       console.error(err);
@@ -26,7 +25,6 @@ export function CategoriaProvider({ children }) {
     }
   }, []);
 
-  // Função para excluir uma categoria
   const deletarCategoria = async (id) => {
     try {
       await api.delete(`/categorias/${id}`);
