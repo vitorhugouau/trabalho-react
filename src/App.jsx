@@ -4,6 +4,7 @@ import Dashboard from "./pages/admin/dashboard/Dashboard";
 import Categorias from "./pages/admin/categorias/CategoriasList"; 
 import Produtos from "./pages/admin/produtos/ProdutosList"; 
 import CategoriasAdd from "./pages/admin/categorias/CategoriaForm"; 
+// import ProdutosAdd from "./pages/admin/produtos/ProdutosForm"; 
 import Registro from "./pages/admin/Registro"; 
 import PrivateRoute from "./components/PrivateRoute";
 
@@ -34,6 +35,14 @@ export default function App() {
               element={
                 <PrivateRoute>
                   <CategoriasAdd />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/admin/produtos"
+              element={
+                <PrivateRoute>
+                  <Produtos />
                 </PrivateRoute>
               }
             />

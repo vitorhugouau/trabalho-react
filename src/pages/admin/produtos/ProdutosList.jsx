@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../../../services/api';
+import './ProdutosList.css';
 
 const ProdutosList = () => {
     const navigate = useNavigate();
@@ -72,7 +73,7 @@ return (
         <i className="fas fa-trash-alt"></i> Excluir
       </button>
 
-      <button className="produto-button add-button" onClick={handleAddproduto}>
+      <button className="produto-button add-button" onClick={HandleAddproduto}>
         <i className="fas fa-plus-circle"></i> Adicionar produto
       </button>
 
@@ -83,6 +84,6 @@ return (
   );
 };
 
-export default produtosList;
+export default ProdutosList;
 
 

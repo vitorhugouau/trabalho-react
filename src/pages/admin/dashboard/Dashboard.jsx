@@ -13,6 +13,9 @@ const Dashboard = () => {
   const handleCategoria = () => {
     navigate('/admin/categorias')
   }
+  const handleProduto = () => {
+    navigate('/admin/produtos')
+  }
 
   return (
     <div className="dashboard-container">
@@ -25,7 +28,7 @@ const Dashboard = () => {
           <i className="fas fa-tags"></i> Categorias
         </button>
 
-        <button className="dashboard-button">
+        <button className="dashboard-button" onClick={handleProduto}>
           <i className="fas fa-cogs"></i> Produtos
         </button>
 
