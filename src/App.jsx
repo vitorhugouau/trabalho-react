@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./pages/admin/Login";
 import Dashboard from "./pages/admin/dashboard/Dashboard"; 
 import Categorias from "./pages/admin/categorias/CategoriasList"; 
+import Produtos from "./pages/admin/produtos/ProdutosList"; 
 import CategoriasAdd from "./pages/admin/categorias/CategoriaForm"; 
 import Registro from "./pages/admin/Registro"; 
 import PrivateRoute from "./components/PrivateRoute";

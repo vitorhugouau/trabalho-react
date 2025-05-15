@@ -60,18 +60,18 @@ const CategoriasList = () => {
           categorias.map((categoria) => (
             <li key={categoria.id} className="categoria-item">
               <span>{categoria.nome}</span>
-              <button
-                className="categoria-button delete-button"
-                onClick={() => deletarCategoria(categoria.id)}
-              >
-                <i className="fas fa-trash-alt"></i> Excluir
-              </button>
             </li>
           ))
         ) : (
           <li className="categoria-item">Não há categorias disponíveis.</li>
         )}
       </ul>
+      <button
+        className="categoria-button delete-button"
+        onClick={() => deletarCategoria(categoria.id)}
+      >
+        <i className="fas fa-trash-alt"></i> Excluir
+      </button>
 
       <button className="categoria-button add-button" onClick={handleAddCategoria}>
         <i className="fas fa-plus-circle"></i> Adicionar Categoria
