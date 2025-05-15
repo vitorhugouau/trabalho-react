@@ -1,0 +1,152 @@
+import { useNavigate } from "react-router-dom";
+import { useState, useEffect, useCallback } from 'react';
+import api from '../../../services/api';
+import axios from "axios";
+
+const ProdutosForm = () => {
+  const token = localStorage.getItem("token");
+
+  const navigate = useNavigate();
+  const produto = navigate.state?.produto;
+
+  const [nome, setNome] = useState(produto ? produto.nome : '');
+  const [quantidade, setQuantidade] = useState(produto ? produto.quantidade : 0);
+  const [preco, setPreco] = useState(produto ? produto.preco : 0);
+  const [imagem, setImagem] = useState(produto ? produto.imagem : '');
+  const [descricao, setDescricao] = useState(produto ? produto.descricao : '');
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    const dadosAtualizados = {
+      nome,
+      quantidade,
+      preco,
+      imagem,
+      descricao,
+    };
+
+    try {
+      if (produto) {
+        await api.put(
+          `/app/produtos`,
+          {
+            id: produto._id,
+            nome: dadosAtualizados.nome,
+            quantidade: dadosAtualizados.quantidade,
+            preco: dadosAtualizados.preco,
+            descricao: dadosAtualizados.descricao,
+            imagem: dadosAtualizados.imagem,
+            categoria: "Categoria teste",
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+      } else {
+        await api.post(`/app/produtos`,{
+            nome: dadosAtualizados.nome,
+            quantidade: dadosAtualizados.quantidade,
+            preco: dadosAtualizados.preco,
+            descricao: dadosAtualizados.descricao,
+            imagem: dadosAtualizados.imagem,
+            categoria: "Categoria teste",
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+      }
+      navigate("/admin/produtos");
+      alert("Produto atualizado com sucesso!");
+    } catch (e) {
+      console.log(e);
+      alert("Erro ao atualizar produto.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading) {
+    return <Loading />;
+  }
+
+  return (
+    <div className="editar-produto">
+      {produto ? (
+        <h1>Editar produto: {produto.nome}</h1>
+      ) : (
+        <h1>Criar produto</h1>
+      )}
+
+      <form onSubmit={handleSubmit}>
+        <div className="input-row">
+          <label>
+            Nome:
+            <input
+              type="text"
+              value={nome ?? ""}
+              onChange={(e) => setNome(e.target.value)}
+            />
+          </label>
+
+          <label>
+            Quantidade:
+            <input
+              type="number"
+              value={quantidade ?? 0}
+              onChange={(e) => setQuantidade(e.target.value)}
+            />
+          </label>
+        </div>
+
+        <div className="input-row">
+          <label>
+            Preço:
+            <input
+              type="number"
+              value={preco ?? 0}
+              onChange={(e) => setPreco(e.target.value)}
+            />
+          </label>
+
+          <label>
+            Imagem (URL):
+            <input
+              type="text"
+              value={imagem ?? ""}
+              onChange={(e) => setImagem(e.target.value)}
+            />
+          </label>
+        </div>
+
+        <label>
+          Descrição:
+          <textarea
+            value={descricao ?? ""}
+            onChange={(e) => setDescricao(e.target.value)}
+          />
+        </label>
+
+        {imagem && (
+          <img src={imagem} alt="Pré-visualização" style={{ width: "200px" }} />
+        )}
+
+        <div className="botoes">
+          <button type="submit">Salvar</button>
+          <button type="button" onClick={() => window.history.back()}>
+            Cancelar
+          </button>
+        </div>
+      </form>
+
+    </div>
+  );
+}
+
+export default ProdutosForm;

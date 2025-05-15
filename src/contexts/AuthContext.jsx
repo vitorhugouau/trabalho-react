@@ -25,6 +25,7 @@ export function AuthProvider({ children }) {
       const response = await api.post('/app/login', { usuario, senha }); 
       const { token } = response.data; 
       setToken(token); 
+      localStorage.setItem('usuario', usuario)
     } catch (error) {
       console.error('Erro ao fazer login', error);
       throw new Error('Erro ao fazer login');
@@ -33,6 +34,7 @@ export function AuthProvider({ children }) {
 
   const logout = () => {
     setToken(null);
+    localStorage.removeItem('usuario')
   };
 
   return (

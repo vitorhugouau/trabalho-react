@@ -9,11 +9,13 @@ const ProdutosList = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
 
+    const usuario = localStorage.getItem('usuario');
+
     const listarProdutos = useCallback(async () => {
         setLoading(true);
         setError(null);
         try {
-            const response = await api.get('/app/produtos');
+            const response = await api.get(`/app/produtos/${usuario}`);
             setProdutos(response.data);
         } catch (err) {
             setError("Error ao carregar produtos");
@@ -40,11 +42,11 @@ useEffect(() => {
 }, [listarProdutos]);
 
 const HandleAddproduto = () => {
-    navigate('admin/produtos/adicionar');
+    navigate('/admin/produtos/adicionar');
 };
 
 const handleVoltar = () => {
-    navigate('admin/dashboard');
+    navigate('/admin/dashboard');
 };
 
 if (error){
