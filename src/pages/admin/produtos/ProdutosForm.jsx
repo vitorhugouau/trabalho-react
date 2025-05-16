@@ -2,6 +2,8 @@ import { useNavigate } from "react-router-dom";
 import { useState, useEffect, useCallback } from 'react';
 import api from '../../../services/api';
 import axios from "axios";
+import "./EditarProdutos.css";
+import { Save, X, Image, FileText, Package, DollarSign, Layers } from "lucide-react";
 
 const ProdutosForm = () => {
   const token = localStorage.getItem("token");
@@ -77,17 +79,16 @@ const ProdutosForm = () => {
   }
 
   return (
-    <div className="editar-produto">
-      {produto ? (
-        <h1>Editar produto: {produto.nome}</h1>
-      ) : (
-        <h1>Criar produto</h1>
-      )}
+    <div className="editar-produto-container">
+      <h1 className="titulo">
+        <Package className="icon" />
+        {produto ? `Editar produto: ${produto.nome}` : "Criar produto"}
+      </h1>
 
-      <form onSubmit={handleSubmit}>
-        <div className="input-row">
+      <form onSubmit={handleSubmit} className="formulario">
+        <div className="linha">
           <label>
-            Nome:
+            <FileText className="icon" /> Nome:
             <input
               type="text"
               value={nome ?? ""}
@@ -96,7 +97,7 @@ const ProdutosForm = () => {
           </label>
 
           <label>
-            Quantidade:
+            <Layers className="icon" /> Quantidade:
             <input
               type="number"
               value={quantidade ?? 0}
@@ -105,9 +106,9 @@ const ProdutosForm = () => {
           </label>
         </div>
 
-        <div className="input-row">
+        <div className="linha">
           <label>
-            Preço:
+            <DollarSign className="icon" /> Preço:
             <input
               type="number"
               value={preco ?? 0}
@@ -116,7 +117,7 @@ const ProdutosForm = () => {
           </label>
 
           <label>
-            Imagem (URL):
+            <Image className="icon" /> Imagem (URL):
             <input
               type="text"
               value={imagem ?? ""}
@@ -125,8 +126,8 @@ const ProdutosForm = () => {
           </label>
         </div>
 
-        <label>
-          Descrição:
+        <label className="descricao-label">
+          <FileText className="icon" /> Descrição:
           <textarea
             value={descricao ?? ""}
             onChange={(e) => setDescricao(e.target.value)}
@@ -134,17 +135,25 @@ const ProdutosForm = () => {
         </label>
 
         {imagem && (
-          <img src={imagem} alt="Pré-visualização" style={{ width: "200px" }} />
+          <div className="preview">
+            <p>Pré-visualização:</p>
+            <img src={imagem} alt="Pré-visualização" />
+          </div>
         )}
 
         <div className="botoes">
-          <button type="submit">Salvar</button>
-          <button type="button" onClick={() => window.history.back()}>
-            Cancelar
+          <button type="submit" className="botao salvar">
+            <Save className="icon" /> Salvar
+          </button>
+          <button
+            type="button"
+            className="botao cancelar"
+            onClick={() => window.history.back()}
+          >
+            <X className="icon" /> Cancelar
           </button>
         </div>
       </form>
-
     </div>
   );
 }
