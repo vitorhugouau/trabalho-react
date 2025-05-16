@@ -7,12 +7,14 @@ import CategoriasAdd from "./pages/admin/categorias/CategoriaForm";
 import ProdutosAdd from "./pages/admin/produtos/ProdutosForm"; 
 import Registro from "./pages/admin/Registro"; 
 import PrivateRoute from "./components/PrivateRoute";
+import HomePage from "./pages/public/home/HomePage";
 
 export default function App() {
   return (
     <BrowserRouter>
           <Routes>
-            <Route path="/" element={<Login />} />
+            <Route path="/" element={<HomePage />} />
+            <Route path="/login" element={<Login />} />
             <Route path="/registro" element={<Registro />} />
             <Route
               path="/admin/dashboard"

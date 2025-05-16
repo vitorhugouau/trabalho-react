@@ -1,0 +1,124 @@
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f9f9f9;
+}
+
+.header {
+  background-color: #1f1f1f;
+  color: white;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+
+.nav a {
+  color: white;
+  margin: 0 1rem;
+  text-decoration: none;
+}
+
+.icons svg {
+  color: white;
+  margin-left: 1rem;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.hero {
+  background-image: url('/img/hero-bg.jpg');
+  background-size: cover;
+  background-position: center;
+  color: white;
+  text-align: center;
+  padding: 5rem 2rem;
+}
+
+.hero-content h2 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.hero-content button {
+  padding: 0.8rem 1.5rem;
+  background-color: #ff6a00;
+  color: white;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.categories {
+  padding: 3rem 2rem;
+  text-align: center;
+}
+
+.category-grid {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 1.5rem;
+}
+
+.category-card {
+  background: white;
+  padding: 1rem 2rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+}
+
+.category-card svg {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.featured {
+  padding: 3rem 2rem;
+  background-color: #fff;
+}
+
+.product-grid {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.product-card {
+  background: #f4f4f4;
+  padding: 1rem;
+  border-radius: 8px;
+  text-align: center;
+  width: 200px;
+}
+
+.product-card img {
+  width: 100%;
+  height: auto;
+}
+
+.product-card button {
+  margin-top: 0.5rem;
+  background-color: #1f1f1f;
+  color: white;
+  border: none;
+  padding: 0.5rem;
+  cursor: pointer;
+}
+
+.footer {
+  text-align: center;
+  padding: 1rem;
+  background-color: #1f1f1f;
+  color: white;
+}
