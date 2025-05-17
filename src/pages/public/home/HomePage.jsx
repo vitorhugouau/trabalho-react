@@ -1,43 +1,53 @@
-// HomePage.jsx
-import React from 'react';
+
+import React, { useState, useEffect, useCallback } from 'react';
 import './HomePage.css';
 import { FaShoppingCart, FaUser, FaLaptop, FaMemory, FaMicrochip } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
+import api from '../../../services/api';
 
 
-const HomePage = () => {
+const HomePage = ({ usuario }) => {
+  const [produtos, setProdutos] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+  const usuario = localStorage.getItem('usuario');
 
-  const navigate = useNavigate();
+  const listarProdutos = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await api.get(`/app/produtos/${usuario}`);
+      setProdutos(response.data);
+    } catch (err) {
+      setError("Erro ao carregar produtos");
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  }, [usuario]);
 
+  useEffect(() => {
+    listarProdutos();
+  }, [listarProdutos]);
 
   return (
     <div className="homepage">
-      {/* Header */}
-      <header className="header">
-        <h1 className="logo">TechStore</h1>
-        <nav className="nav">
-          <a href="#">Início</a>
-          <a href="#">Produtos</a>
-          <a href="#">Contato</a>
-          <a href="#">Sobre</a>
-          <span
-            onClick={() => navigate('/login')}
-            style={{ cursor: 'pointer', color: 'inherit', textDecoration: 'none' }}
-          >
-            Área Administrativa
-          </span>
-        </nav>
-        <div className="icons">
-          <FaShoppingCart />
-          <FaUser />
-        </div>
-      </header>
+      {/* ...header e outras seções... */}
 
       {/* Hero */}
       <section className="hero">
         <div className="hero-content">
           <h2>Os Melhores Produtos de Informática</h2>
           <p>Placas de vídeo, processadores, periféricos e mais com ofertas imperdíveis!</p>
+
+         
+          {loading && <p style={{ color: '#fff' }}>Carregando produtos...</p>}
+          {error && <p style={{ color: 'red' }}>{error}</p>}
+          {!loading && produtos.length > 0 && (
+            <p style={{ color: '#fff' }}>
+              {produtos.length} produto(s) encontrados para você!
+            </p>
+          )}
           <button>Ver Ofertas</button>
         </div>
       </section>
