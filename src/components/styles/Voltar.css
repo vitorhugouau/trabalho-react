@@ -1,0 +1,13 @@
+.voltar {
+  text-decoration: none;
+  background-color: #0f1929;
+  padding: 10px 25px;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  transition: all 0.3s ease-in-out;
+}
+
+.voltar:hover {
+  background-color: #081220;
+}

@@ -1,0 +1,61 @@
+.vendas-admin {
+  background-color: #1e293b;
+  height: 100vh;
+  width: 100vw;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 30px;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.header-titulo-venda {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.tabela-container {
+  max-height: 500px;
+  overflow-y: auto;
+  width: 100%;
+}
+
+.tabela-vendas {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1.5rem;
+  font-family: sans-serif;
+}
+
+.tabela-vendas th,
+.tabela-vendas td {
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  text-align: left;
+  vertical-align: top;
+}
+
+.tabela-vendas th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+  color: #1e293b;
+}
+
+.tabela-vendas ul {
+  padding-left: 20px;
+  margin: 0;
+}
+
+.tabela-vendas li {
+  list-style-type: disc;
+}
+
+.tabela-vendas img {
+  display: block;
+}

@@ -1,0 +1,78 @@
+.registrar {
+  background: linear-gradient(135deg, #2575fc, #6a11cb);
+  color: white;
+  padding: 3rem;
+  max-width: 450px;
+  margin: 5rem auto;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
+.registrar h1 {
+  font-size: 1.8rem;
+  margin-bottom: 2rem;
+}
+
+.formulario {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.form-group label {
+  font-size: 1rem;
+  margin-bottom: 0.4rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.input {
+  padding: 0.75rem;
+  border-radius: 8px;
+  border: none;
+  font-size: 1rem;
+  outline: none;
+}
+
+.input:focus {
+  box-shadow: 0 0 0 2px #ffffff80;
+  background: #f0f0ff;
+  color: #000;
+}
+
+.botao {
+  background-color: #ffffff;
+  color: #2575fc;
+  padding: 0.8rem;
+  border: none;
+  font-size: 1rem;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.3s;
+  font-weight: bold;
+}
+
+.botao:hover {
+  background-color: #e0e0ff;
+}
+
+.link-a {
+  color: #ffe;
+  text-decoration: underline;
+  font-weight: 500;
+  margin-top: 1rem;
+  display: inline-block;
+}
+
+.mensagem {
+  margin-top: 1rem;
+  font-size: 0.95rem;
+}
