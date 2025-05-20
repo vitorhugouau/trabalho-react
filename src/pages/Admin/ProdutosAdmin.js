@@ -5,6 +5,7 @@ import { urlApi } from "../../url";
 import { useEffect, useState } from "react";
 import Loading from "../../components/Loading";
 import { useNavigate } from "react-router-dom";
+import { FaPlus, FaEdit, FaTrash } from "react-icons/fa";
 
 export default function ProdutosAdmin() {
   const navigate = useNavigate();
@@ -68,10 +69,13 @@ export default function ProdutosAdmin() {
     <div className="produtos-admin">
       <div className="header-titulo">
         <h1>Produtos</h1>
-        <h1 style={{ cursor: "pointer" }} onClick={() => criarProduto()}>
-          +
-        </h1>
+        <FaPlus
+          title="Adicionar novo produto"
+          style={{ cursor: "pointer", color: "#28a745", fontSize: "24px" }}
+          onClick={criarProduto}
+        />
       </div>
+
       <div className="tabela-container">
         <table className="tabela-produtos">
           <thead>
@@ -103,31 +107,28 @@ export default function ProdutosAdmin() {
                 <td>{produto.quantidade}</td>
                 <td>{produto.preco.toFixed(2)}</td>
                 <td>
-                  <p
-                    style={{ color: "yellow", cursor: "pointer" }}
+                  <FaEdit
+                    title="Editar"
+                    style={{ cursor: "pointer", color: "#ffc107", marginRight: "10px" }}
                     onClick={() => editarProduto(produto)}
-                  >
-                    Editar
-                  </p>
-                  <p
-                    style={{ color: "red", cursor: "pointer" }}
+                  />
+                  <FaTrash
+                    title="Excluir"
+                    style={{ cursor: "pointer", color: "#dc3545" }}
                     onClick={() => {
-                      const confirmar = window.confirm(
-                        "Tem certeza que deseja excluir este produto?"
-                      );
+                      const confirmar = window.confirm("Tem certeza que deseja excluir este produto?");
                       if (confirmar) {
                         removerProduto(produto._id);
                       }
                     }}
-                  >
-                    Excluir
-                  </p>
+                  />
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
+
       <Voltar />
     </div>
   );

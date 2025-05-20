@@ -1,105 +1,138 @@
 .editar-produto {
-  background-color: #1e293b;
-  height: 100vh;
-  width: 100vw;
-  color: white;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  max-width: 800px;
+  margin: 40px auto;
   padding: 30px;
-  box-sizing: border-box;
-  overflow-y: auto;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  font-family: 'Segoe UI', sans-serif;
 }
 
 .editar-produto h1 {
-  font-size: 24px;
-  margin-bottom: 20px;
+  font-size: 26px;
+  color: #333;
+  margin-bottom: 25px;
+  text-align: center;
 }
 
 .editar-produto form {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  width: 100%;
-  max-width: 600px;
-  gap: 16px;
+  gap: 20px;
 }
 
 .input-row {
   display: flex;
-  gap: 16px;
-  width: 100%;
+  gap: 20px;
+  flex-wrap: wrap;
 }
 
 .input-row label {
   flex: 1;
   display: flex;
   flex-direction: column;
-  font-weight: bold;
+  font-weight: 500;
+  color: #444;
 }
 
-.editar-produto label {
-  display: flex;
-  flex-direction: column;
-  font-weight: bold;
-  width: 100%;
-}
-
-.editar-produto input,
-.editar-produto textarea,
-.editar-produto select {
+.input-row input,
+.input-row select,
+textarea {
   margin-top: 6px;
-  padding: 10px;
-  font-size: 14px;
-  border-radius: 6px;
+  padding: 10px 12px;
+  font-size: 15px;
   border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  transition: border-color 0.3s;
+}
+
+.input-row input:focus,
+.input-row select:focus,
+textarea:focus {
+  border-color: #4caf50;
   outline: none;
-  background-color: white;
-  color: black;
-  transition: border-color 0.2s;
 }
 
-.editar-produto input:focus,
-.editar-produto textarea:focus,
-.editar-produto select:focus {
-  border-color: #007bff;
-}
-
-.editar-produto select {
-  min-width: 200px;
-}
-
-.editar-produto textarea {
+textarea {
+  min-height: 100px;
   resize: vertical;
-  min-height: 80px;
+}
+
+.editar-produto img {
+  max-width: 200px;
+  height: auto;
+  border-radius: 10px;
+  margin-top: 10px;
+  border: 2px solid #e0e0e0;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
 }
 
 .botoes {
   display: flex;
-  gap: 12px;
-  justify-content: center;
-  margin-top: 12px;
+  justify-content: flex-end;
+  gap: 15px;
+  margin-top: 20px;
 }
 
 .botoes button {
   padding: 10px 20px;
-  font-size: 15px;
-  background-color: #007bff;
+  font-size: 16px;
+  font-weight: 500;
   border: none;
-  color: white;
-  border-radius: 6px;
+  border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: background 0.3s ease;
 }
 
-.botoes button:hover {
-  background-color: #0056b3;
+.botoes button[type="submit"] {
+  background-color: #4caf50;
+  color: white;
 }
 
-.editar-produto img {
-  max-width: 100%;
-  max-height: 200px;
-  border-radius: 6px;
-  margin-top: 10px;
-  border: 1px solid #ccc;
+.botoes button[type="submit"]:hover {
+  background-color: #43a047;
+}
+
+.botoes button[type="button"] {
+  background-color: #ccc;
+  color: #333;
+}
+
+.botoes button[type="button"]:hover {
+  background-color: #b0b0b0;
+}
+
+@media (max-width: 600px) {
+  .input-row {
+    flex-direction: column;
+  }
+
+  .editar-produto img {
+    max-width: 100%;
+  }
+}
+
+.icon,
+.icon-title,
+.icon-button {
+  vertical-align: middle;
+  margin-right: 8px;
+  stroke-width: 2;
+}
+
+.icon {
+  margin-bottom: 4px;
+}
+
+.icon-title {
+  width: 26px;
+  height: 26px;
+  color: #4caf50;
+  margin-right: 10px;
+}
+
+.icon-button {
+  width: 18px;
+  height: 18px;
 }

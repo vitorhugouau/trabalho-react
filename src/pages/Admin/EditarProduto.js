@@ -4,6 +4,7 @@ import "./../../styles/Admin/EditarProduto.css";
 import axios from "axios";
 import { urlApi } from "../../url";
 import Loading from "../../components/Loading";
+import { ImageIcon, TagIcon, PackageIcon, DollarSignIcon, FileTextIcon, CheckIcon, XIcon } from "lucide-react";
 
 export default function EditarProduto() {
   const token = localStorage.getItem("TOKEN");
@@ -85,11 +86,15 @@ export default function EditarProduto() {
 
   return (
     <div className="editar-produto">
-      <h1>{produto ? `Editar produto: ${produto.nome}` : "Criar produto"}</h1>
+      <h1>
+        <PackageIcon className="icon-title" />
+        {produto ? `Editar produto: ${produto.nome}` : "Criar produto"}
+      </h1>
 
       <form onSubmit={editaOuCriaProduto}>
         <div className="input-row">
           <label>
+            <TagIcon className="icon" />
             Nome:
             <input
               type="text"
@@ -99,6 +104,7 @@ export default function EditarProduto() {
           </label>
 
           <label>
+            <PackageIcon className="icon" />
             Quantidade:
             <input
               type="number"
@@ -111,6 +117,7 @@ export default function EditarProduto() {
 
         <div className="input-row">
           <label>
+            <TagIcon className="icon" />
             Categoria:
             <select
               value={categoria}
@@ -128,6 +135,7 @@ export default function EditarProduto() {
 
         <div className="input-row">
           <label>
+            <DollarSignIcon className="icon" />
             Preço:
             <input
               type="number"
@@ -139,6 +147,7 @@ export default function EditarProduto() {
           </label>
 
           <label>
+            <ImageIcon className="icon" />
             Imagem (URL):
             <input
               type="text"
@@ -149,6 +158,7 @@ export default function EditarProduto() {
         </div>
 
         <label>
+          <FileTextIcon className="icon" />
           Descrição:
           <textarea
             value={descricao}
@@ -159,9 +169,11 @@ export default function EditarProduto() {
         {imagem && <img src={imagem} alt="Prévia do Produto" />}
 
         <div className="botoes">
-          <button type="submit">Salvar</button>
+          <button type="submit">
+            <CheckIcon className="icon-button" /> Salvar
+          </button>
           <button type="button" onClick={() => navigate("/produtos")}>
-            Cancelar
+            <XIcon className="icon-button" /> Cancelar
           </button>
         </div>
       </form>

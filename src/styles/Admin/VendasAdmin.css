@@ -1,61 +1,93 @@
 .vendas-admin {
-  background-color: #1e293b;
-  height: 100vh;
-  width: 100vw;
-  color: white;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-  padding: 30px;
-  box-sizing: border-box;
-  position: relative;
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 24px;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+  font-family: 'Segoe UI', sans-serif;
 }
 
-.header-titulo-venda {
+.header-titulo-venda h1 {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  width: 100%;
+  font-size: 28px;
+  color: #333;
+  margin-bottom: 24px;
+  gap: 10px;
 }
 
 .tabela-container {
-  max-height: 500px;
-  overflow-y: auto;
-  width: 100%;
+  overflow-x: auto;
 }
 
 .tabela-vendas {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 1.5rem;
-  font-family: sans-serif;
+  font-size: 16px;
+  color: #444;
+  background: #fafafa;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.tabela-vendas thead {
+  background-color: #4caf50;
+  color: white;
 }
 
 .tabela-vendas th,
 .tabela-vendas td {
-  padding: 0.75rem;
-  border: 1px solid #ccc;
+  padding: 12px 16px;
   text-align: left;
+  border-bottom: 1px solid #ddd;
   vertical-align: top;
 }
 
 .tabela-vendas th {
-  background-color: #f2f2f2;
-  font-weight: bold;
-  color: #1e293b;
+  font-weight: 600;
+}
+
+.tabela-vendas tr:hover {
+  background-color: #f1f1f1;
+  transition: background 0.2s;
 }
 
 .tabela-vendas ul {
-  padding-left: 20px;
+  padding-left: 18px;
   margin: 0;
-}
-
-.tabela-vendas li {
   list-style-type: disc;
+  color: #333;
 }
 
-.tabela-vendas img {
-  display: block;
+.icon-title,
+.icon-header {
+  vertical-align: middle;
+  stroke-width: 1.5;
+}
+
+.icon-title {
+  margin-right: 10px;
+  color: #4caf50;
+  width: 26px;
+  height: 26px;
+}
+
+.icon-header {
+  margin-right: 6px;
+  width: 18px;
+  height: 18px;
+  color: #ffffff;
+}
+
+@media (max-width: 768px) {
+  .tabela-vendas th,
+  .tabela-vendas td {
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  .header-titulo-venda h1 {
+    font-size: 22px;
+  }
 }

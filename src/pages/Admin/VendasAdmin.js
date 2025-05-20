@@ -4,6 +4,7 @@ import { urlApi } from "../../url";
 import Loading from "../../components/Loading";
 import "./../../styles/Admin/VendasAdmin.css";
 import Voltar from "../../components/Voltar";
+import { ShoppingCartIcon, UserIcon, CalendarIcon, ListIcon, HashIcon, ArrowLeftCircle } from "lucide-react";
 
 export default function VendasAdmin() {
   const token = localStorage.getItem("TOKEN");
@@ -30,7 +31,7 @@ export default function VendasAdmin() {
 
   useEffect(() => {
     buscarVendas();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (loading) return <Loading />;
@@ -38,17 +39,20 @@ export default function VendasAdmin() {
   return (
     <div className="vendas-admin">
       <div className="header-titulo-venda">
-        <h1>Vendas</h1>
+        <h1>
+          <ShoppingCartIcon className="icon-title" />
+          Vendas
+        </h1>
       </div>
       <div className="tabela-container">
         <table className="tabela-vendas">
           <thead>
             <tr>
-              <th>ID</th>
-              <th>Cliente</th>
-              <th>Usuário</th>
-              <th>Data</th>
-              <th>Produtos</th>
+              <th><HashIcon className="icon-header" />ID</th>
+              <th><UserIcon className="icon-header" />Cliente</th>
+              <th><UserIcon className="icon-header" />Usuário</th>
+              <th><CalendarIcon className="icon-header" />Data</th>
+              <th><ListIcon className="icon-header" />Produtos</th>
             </tr>
           </thead>
           <tbody>

@@ -1,12 +1,13 @@
 .registrar {
-  background: linear-gradient(135deg, #2575fc, #6a11cb);
-  color: white;
+background: linear-gradient(135deg, #0d4627, #24b14e);
+  color: #ffffff;
   padding: 3rem;
-  max-width: 450px;
+  max-width: 420px;
   margin: 5rem auto;
   border-radius: 16px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
   text-align: center;
+  font-family: 'Segoe UI', sans-serif;
 }
 
 .registrar h1 {
@@ -50,7 +51,7 @@
 
 .botao {
   background-color: #ffffff;
-  color: #2575fc;
+  color: #067935;
   padding: 0.8rem;
   border: none;
   font-size: 1rem;

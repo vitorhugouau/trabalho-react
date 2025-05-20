@@ -4,6 +4,8 @@ import "./../styles/Painel.css";
 import { FaShoppingCart, FaUser, FaLaptop, FaMemory, FaMicrochip, FaTimes } from 'react-icons/fa';
 import axios from "axios";
 import { urlApi, user } from "../url";
+import { FaSignInAlt } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 export default function Painel() {
   const [produtos, setProdutos] = useState([]);
@@ -97,13 +99,21 @@ export default function Painel() {
   return (
     <div className="homepage">
       <header className="header">
-        <h1 className="logo"><FaLaptop /> TechStore</h1>
-        <button className="cart-toggle" onClick={() => setMostrarCarrinho(!mostrarCarrinho)}>
-          <FaShoppingCart />
-          {mostrarCarrinho ? " Fechar Carrinho" : ` Carrinho (${carrinho.length})`}
-        </button>
-      </header>
+        <h1 className="logo">
+          <FaLaptop /> TechStore
+        </h1>
 
+        <div className="header-buttons">
+          <button className="cart-toggle" onClick={() => setMostrarCarrinho(!mostrarCarrinho)}>
+            <FaShoppingCart />
+            {mostrarCarrinho ? " Fechar Carrinho" : ` Carrinho (${carrinho.length})`}
+          </button>
+
+          <Link to="/" className="login-button">
+            <FaSignInAlt /> Login
+          </Link>
+        </div>
+      </header>
       <section className="hero">
         <h2>Os Melhores Produtos de Informática</h2>
         <p>Placas de vídeo, processadores, periféricos e mais com ofertas imperdíveis!</p>
@@ -129,48 +139,55 @@ export default function Painel() {
       </section>
 
       {mostrarCarrinho && (
-        <section className="carrinho">
-          <h3>Carrinho de Compras</h3>
+        <div className="modal-overlay" onClick={() => setMostrarCarrinho(false)}>
+          <div className="modal-carrinho" onClick={(e) => e.stopPropagation()}>
+            <h3 className="titulo-modal">Carrinho de Compras</h3>
 
-          {carrinho.length === 0 ? (
-            <p className="mensagem-vazio">Nenhum produto no carrinho.</p>
-          ) : (
-            <>
-              <ul className="carrinho-grid">
-                {carrinho.map((item) => (
-                  <li key={item._id} className="carrinho-item">
-                    <div className="info-produto">
-                      <h4>{item.nome}</h4>
-                      <p>{item.quantidade}x</p>
-                      <p>R$ {(item.preco * item.quantidade).toLocaleString("pt-BR")}</p>
-                    </div>
-                    <button
-                      className="btn-remover"
-                      onClick={() => removerDoCarrinho(item._id)}
-                    >
-                      <FaTimes /> Remover
-                    </button>
-                  </li>
-                ))}
-              </ul>
+            {carrinho.length === 0 ? (
+              <p className="mensagem-vazio">Nenhum produto no carrinho.</p>
+            ) : (
+              <>
+                <ul className="carrinho-grid">
+                  {carrinho.map((item) => (
+                    <li key={item._id} className="carrinho-item">
+                      <div className="info-produto">
+                        <h4>{item.nome}</h4>
+                        <p>{item.quantidade}x</p>
+                        <p>R$ {(item.preco * item.quantidade).toLocaleString("pt-BR")}</p>
+                      </div>
+                      <button
+                        className="btn-remover"
+                        onClick={() => removerDoCarrinho(item._id)}
+                      >
+                        <FaTimes /> Remover
+                      </button>
+                    </li>
+                  ))}
+                </ul>
 
-              <p className="total">Total: <strong>R$ {total.toLocaleString("pt-BR")}</strong></p>
+                <p className="total">Total: <strong>R$ {total.toLocaleString("pt-BR")}</strong></p>
 
-              <input
-                type="text"
-                className="input-nome"
-                placeholder="Nome do Cliente"
-                value={nome}
-                onChange={(e) => setNome(e.target.value)}
-              />
+                <input
+                  type="text"
+                  className="input-nome"
+                  placeholder="Nome do Cliente"
+                  value={nome}
+                  onChange={(e) => setNome(e.target.value)}
+                />
 
-              <button className="btn-finalizar" onClick={cadastrarVenda}>
-                Finalizar Venda
-              </button>
-            </>
-          )}
-        </section>
+                <button className="btn-finalizar" onClick={cadastrarVenda}>
+                  Finalizar Venda
+                </button>
+              </>
+            )}
+
+            <button className="btn-fechar" onClick={() => setMostrarCarrinho(false)}>
+              <FaTimes /> Fechar
+            </button>
+          </div>
+        </div>
       )}
+
 
 
       <section className="categories">
@@ -186,14 +203,14 @@ export default function Painel() {
         <h3>Destaques</h3>
         <div className="product-grid">
           <div className="product-card">
-            <img src="/img/placa-video.jpg" alt="Placa de Vídeo" />
+            <img src="/img/3050.jpg" alt="Placa de Vídeo" />
             <h4>RTX 3050</h4>
-            <p>R$ 2.500,00</p>
+            <p>R$ 1.500,00</p>
             <button>Comprar</button>
           </div>
           <div className="product-card">
-            <img src="/img/ryzen.jpg" alt="Ryzen" />
-            <h4>Ryzen 5 5600X</h4>
+            <img src="/img/5600.jpeg" alt="Ryzen" />
+            <h4>Ryzen 5 5600</h4>
             <p>R$ 1.200,00</p>
             <button>Comprar</button>
           </div>
