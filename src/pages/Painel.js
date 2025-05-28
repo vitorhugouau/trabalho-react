@@ -79,7 +79,7 @@ export default function Painel() {
     };
 
     try {
-      await axios.post(`${urlApi}/vendas`, payload);
+      await axios.post(`${urlApi}/venda`, payload);
       alert("Venda cadastrada com sucesso!");
       setCarrinho([]);
       setNome("");

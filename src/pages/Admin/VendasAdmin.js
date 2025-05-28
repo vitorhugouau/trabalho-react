@@ -5,6 +5,7 @@ import Loading from "../../components/Loading";
 import "./../../styles/Admin/VendasAdmin.css";
 import Voltar from "../../components/Voltar";
 import { ShoppingCartIcon, UserIcon, CalendarIcon, ListIcon, HashIcon, ArrowLeftCircle } from "lucide-react";
+import { api } from "../../Services/api";
 
 export default function VendasAdmin() {
   const token = localStorage.getItem("TOKEN");
@@ -15,11 +16,13 @@ export default function VendasAdmin() {
   const buscarVendas = async () => {
     setLoading(true);
     try {
-      const response = await axios.get(`${urlApi}/venda`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      // const response = await axios.get(`${urlApi}/venda`, {
+      //   headers: {
+      //     Authorization: `Bearer ${token}`,
+      //   },
+      // });
+      const response = await api.get('venda')
+      console.log(response, 'testeeee')
       setVendas(response.data);
     } catch (e) {
       console.log(e);
