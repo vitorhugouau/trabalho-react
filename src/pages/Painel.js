@@ -1,10 +1,22 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./../styles/Painel.css";
-import { FaShoppingCart, FaUser, FaLaptop, FaMemory, FaMicrochip, FaTimes } from 'react-icons/fa';
+import {
+  FaShoppingCart,
+  FaUser,
+  FaLaptop,
+  FaMemory,
+  FaMicrochip,
+  FaTimes,
+  FaSignInAlt,
+  FaPlus,
+  FaMinus,
+  FaCheck,
+  FaShoppingBag,
+  FaRegSadTear
+} from "react-icons/fa";
 import axios from "axios";
 import { urlApi, user } from "../url";
-import { FaSignInAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 export default function Painel() {
@@ -18,12 +30,13 @@ export default function Painel() {
 
   const getProdutos = async () => {
     setLoading(true);
+    setError(null);
     try {
       const response = await axios.get(`${urlApi}/produtos/${user}`);
       setProdutos(response.data);
     } catch (e) {
-      console.log(e);
-      alert("Erro ao buscar produtos");
+      setError("Não foi possível carregar os produtos. Tente novamente mais tarde.");
+      console.error(e);
     } finally {
       setLoading(false);
     }
@@ -96,6 +109,15 @@ export default function Painel() {
     0
   );
 
+  if (loading) {
+    return (
+      <div className="loading">
+        <div className="loading-spinner"></div>
+        <p>Carregando produtos...</p>
+      </div>
+    );
+  }
+
   return (
     <div className="homepage">
       <header className="header">
@@ -104,9 +126,12 @@ export default function Painel() {
         </h1>
 
         <div className="header-buttons">
-          <button className="cart-toggle" onClick={() => setMostrarCarrinho(!mostrarCarrinho)}>
+          <button 
+            className="cart-toggle" 
+            onClick={() => setMostrarCarrinho(!mostrarCarrinho)}
+          >
             <FaShoppingCart />
-            {mostrarCarrinho ? " Fechar Carrinho" : ` Carrinho (${carrinho.length})`}
+            <span>{carrinho.length > 0 ? `Carrinho (${carrinho.reduce((acc, item) => acc + item.quantidade, 0)})` : 'Carrinho'}</span>
           </button>
 
           <Link to="/" className="login-button">
@@ -114,21 +139,38 @@ export default function Painel() {
           </Link>
         </div>
       </header>
+
       <section className="hero">
         <h2>Os Melhores Produtos de Informática</h2>
         <p>Placas de vídeo, processadores, periféricos e mais com ofertas imperdíveis!</p>
 
-        {loading && <p className="loading">Carregando produtos...</p>}
-        {error && <p className="error">{error}</p>}
+        {error && (
+          <div className="error">
+            <FaRegSadTear />
+            <p>{error}</p>
+          </div>
+        )}
 
-        {!loading && produtos.length > 0 && (
+        {!loading && produtos.length === 0 && !error && (
+          <div className="error">
+            <FaRegSadTear />
+            <p>Nenhum produto disponível no momento.</p>
+          </div>
+        )}
+
+        {produtos.length > 0 && (
           <div className="products-grid">
             {produtos.map((prod) => (
               <div key={prod._id} className="product-card">
                 <img src={prod.imagem || "/img/sem-imagem.jpg"} alt={prod.nome} />
                 <h4>{prod.nome}</h4>
                 <p className="descricao">{prod.descricao}</p>
-                <p className="preco">R$ {Number(prod.preco).toLocaleString("pt-BR")}</p>
+                <p className="preco">
+                  {new Intl.NumberFormat('pt-BR', {
+                    style: 'currency',
+                    currency: 'BRL'
+                  }).format(prod.preco)}
+                </p>
                 <button onClick={() => adicionarAoCarrinho(prod)}>
                   <FaShoppingCart /> Adicionar ao Carrinho
                 </button>
@@ -141,10 +183,19 @@ export default function Painel() {
       {mostrarCarrinho && (
         <div className="modal-overlay" onClick={() => setMostrarCarrinho(false)}>
           <div className="modal-carrinho" onClick={(e) => e.stopPropagation()}>
-            <h3 className="titulo-modal">Carrinho de Compras</h3>
+            <button className="btn-fechar" onClick={() => setMostrarCarrinho(false)}>
+              <FaTimes />
+            </button>
+
+            <h3 className="titulo-modal">
+              <FaShoppingBag /> Carrinho de Compras
+            </h3>
 
             {carrinho.length === 0 ? (
-              <p className="mensagem-vazio">Nenhum produto no carrinho.</p>
+              <div className="mensagem-vazio">
+                <FaRegSadTear />
+                <p>Nenhum produto no carrinho.</p>
+              </div>
             ) : (
               <>
                 <ul className="carrinho-grid">
@@ -152,12 +203,25 @@ export default function Painel() {
                     <li key={item._id} className="carrinho-item">
                       <div className="info-produto">
                         <h4>{item.nome}</h4>
-                        <p>{item.quantidade}x</p>
-                        <p>R$ {(item.preco * item.quantidade).toLocaleString("pt-BR")}</p>
+                        <div className="quantidade-controles">
+                          <button onClick={() => removerDoCarrinho(item._id)}>
+                            <FaMinus />
+                          </button>
+                          <span>{item.quantidade}</span>
+                          <button onClick={() => adicionarAoCarrinho(item)}>
+                            <FaPlus />
+                          </button>
+                        </div>
+                        <p>
+                          {new Intl.NumberFormat('pt-BR', {
+                            style: 'currency',
+                            currency: 'BRL'
+                          }).format(item.preco * item.quantidade)}
+                        </p>
                       </div>
                       <button
                         className="btn-remover"
-                        onClick={() => removerDoCarrinho(item._id)}
+                        onClick={() => setCarrinho(carrinho.filter(p => p._id !== item._id))}
                       >
                         <FaTimes /> Remover
                       </button>
@@ -165,63 +229,52 @@ export default function Painel() {
                   ))}
                 </ul>
 
-                <p className="total">Total: <strong>R$ {total.toLocaleString("pt-BR")}</strong></p>
+                <p className="total">
+                  Total: {new Intl.NumberFormat('pt-BR', {
+                    style: 'currency',
+                    currency: 'BRL'
+                  }).format(total)}
+                </p>
 
-                <input
-                  type="text"
-                  className="input-nome"
-                  placeholder="Nome do Cliente"
-                  value={nome}
-                  onChange={(e) => setNome(e.target.value)}
-                />
+                <div className="checkout-form">
+                  <div className="input-group">
+                    <FaUser />
+                    <input
+                      type="text"
+                      className="input-nome"
+                      placeholder="Nome do Cliente"
+                      value={nome}
+                      onChange={(e) => setNome(e.target.value)}
+                    />
+                  </div>
 
-                <button className="btn-finalizar" onClick={cadastrarVenda}>
-                  Finalizar Venda
-                </button>
+                  <button className="btn-finalizar" onClick={cadastrarVenda}>
+                    <FaCheck /> Finalizar Compra
+                  </button>
+                </div>
               </>
             )}
-
-            <button className="btn-fechar" onClick={() => setMostrarCarrinho(false)}>
-              <FaTimes /> Fechar
-            </button>
           </div>
         </div>
       )}
 
-
-
       <section className="categories">
-        <h3>Categorias</h3>
+        <h3>Categorias em Destaque</h3>
         <div className="category-grid">
-          <div className="category-card"><FaLaptop /> <span>Notebooks</span></div>
-          <div className="category-card"><FaMicrochip /> <span>Processadores</span></div>
-          <div className="category-card"><FaMemory /> <span>Memórias RAM</span></div>
-        </div>
-      </section>
-
-      <section className="featured">
-        <h3>Destaques</h3>
-        <div className="product-grid">
-          <div className="product-card">
-            <img src="/img/3050.jpg" alt="Placa de Vídeo" />
-            <h4>RTX 3050</h4>
-            <p>R$ 1.500,00</p>
-            <button>Comprar</button>
+          <div className="category-card">
+            <FaLaptop />
+            <span>Notebooks</span>
           </div>
-          <div className="product-card">
-            <img src="/img/5600.jpeg" alt="Ryzen" />
-            <h4>Ryzen 5 5600</h4>
-            <p>R$ 1.200,00</p>
-            <button>Comprar</button>
+          <div className="category-card">
+            <FaMicrochip />
+            <span>Processadores</span>
+          </div>
+          <div className="category-card">
+            <FaMemory />
+            <span>Memórias RAM</span>
           </div>
         </div>
       </section>
-
-      <footer className="footer">
-        <p>&copy; 2025 TechStore. Todos os direitos reservados.</p>
-      </footer>
     </div>
   );
-
-
 }
