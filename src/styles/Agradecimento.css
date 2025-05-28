@@ -1,44 +1,191 @@
 .agradecimento-container {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  min-height: 100vh;
   justify-content: center;
   align-items: center;
-  background-color: #1e293b;
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
   color: #fff;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   text-align: center;
   padding: 20px;
+  position: relative;
+  overflow: hidden;
 }
 
 .agradecimento-container h1 {
-  font-size: 36px;
-  margin-bottom: 10px;
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  animation: slideDown 0.5s ease-out;
 }
 
-.agradecimento-container p {
-  font-size: 20px;
-  margin-bottom: 30px;
+.star-icon {
+  color: #eab308;
+  animation: rotate 3s linear infinite;
+}
+
+.message-container {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  padding: 2rem;
+  border-radius: 1rem;
+  margin: 2rem 0;
   max-width: 600px;
+  position: relative;
+  animation: fadeIn 0.5s ease-out;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.agradecimento-container button {
-  padding: 10px 20px;
-  font-size: 16px;
-  background-color: #4caf50;
-  color: #fff;
+.message-container p {
+  font-size: 1.25rem;
+  line-height: 1.6;
+  margin: 1rem 0;
+}
+
+.message-icon {
+  font-size: 1.5rem;
+  margin: 0 0.5rem;
+  color: #60a5fa;
+}
+
+.heart-icon {
+  color: #ec4899;
+  animation: heartBeat 1.5s ease-in-out infinite;
+}
+
+.return-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+  color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 0.75rem;
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  animation: slideUp 0.5s ease-out;
 }
 
-.agradecimento-container button:hover {
-  background-color: #388e3c;
+.return-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
 }
 
-.icon-sucesso {
-  font-size: 60px;
-  color: #4caf50;
-  margin-bottom: 20px;
+.return-button:active {
+  transform: translateY(0);
+}
+
+.button-icon {
+  font-size: 1.2rem;
+  transition: transform 0.3s ease;
+}
+
+.return-button:hover .button-icon {
+  transform: translateX(-4px);
+}
+
+.confetti {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: #fff;
+  top: -10px;
+  left: var(--x);
+  transform: rotate(var(--rotation));
+  opacity: 0;
+  pointer-events: none;
+  animation: confetti 5s linear infinite var(--delay);
+}
+
+.confetti:nth-child(4n) { background: #22c55e; }
+.confetti:nth-child(4n+1) { background: #eab308; }
+.confetti:nth-child(4n+2) { background: #ec4899; }
+.confetti:nth-child(4n+3) { background: #60a5fa; }
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+@keyframes rings {
+  0% { transform: translate(-50%, -50%) scale(0.5); opacity: 0.8; }
+  100% { transform: translate(-50%, -50%) scale(2); opacity: 0; }
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes heartBeat {
+  0% { transform: scale(1); }
+  14% { transform: scale(1.3); }
+  28% { transform: scale(1); }
+  42% { transform: scale(1.3); }
+  70% { transform: scale(1); }
+}
+
+@keyframes confetti {
+  0% { 
+    transform: translateY(0) rotate(var(--rotation));
+    opacity: 1;
+  }
+  100% { 
+    transform: translateY(100vh) rotate(calc(var(--rotation) + 360deg));
+    opacity: 0;
+  }
+}
+
+@keyframes scaleIn {
+  from { transform: scale(0); }
+  to { transform: scale(1); }
+}
+
+@keyframes slideDown {
+  from { transform: translateY(-20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@media (max-width: 640px) {
+  .agradecimento-container h1 {
+    font-size: 2rem;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .message-container {
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+  }
+
+  .message-container p {
+    font-size: 1.1rem;
+  }
+
+  .icon-sucesso {
+    font-size: 60px;
+  }
+
+  .success-rings {
+    width: 80px;
+    height: 80px;
+  }
 }

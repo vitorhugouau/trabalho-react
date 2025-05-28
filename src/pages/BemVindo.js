@@ -3,20 +3,30 @@ import "./../styles/BemVindo.css";
 import { useState } from "react";
 import axios from "axios";
 import { urlApi } from "../url";
-import { FaUser, FaLock, FaSignInAlt, FaUserPlus, FaUsers } from "react-icons/fa";
+import { 
+  FaUser, 
+  FaLock, 
+  FaSignInAlt, 
+  FaUserPlus, 
+  FaUsers, 
+  FaExclamationCircle 
+} from "react-icons/fa";
 
 export default function BemVindo() {
   const [usuario, setUsuario] = useState("");
   const [senha, setSenha] = useState("");
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const navigate = useNavigate();
 
   const loginUsuario = async () => {
     if (!usuario || !senha) {
-      alert("Preencha todos os campos");
+      setError("Por favor, preencha todos os campos");
       return;
     }
+    
+    setError("");
     setLoading(true);
 
     try {
@@ -26,7 +36,7 @@ export default function BemVindo() {
       });
 
       if (response?.data?.erro) {
-        alert(response?.data?.erro);
+        setError(response.data.erro);
         return;
       }
 
@@ -34,8 +44,8 @@ export default function BemVindo() {
       localStorage.setItem("USUARIO", usuario);
       navigate("/dashboard");
     } catch (e) {
-      alert("Erro ao fazer login");
-      console.log(e);
+      setError(e.response?.data?.erro || "Erro ao fazer login. Tente novamente.");
+      console.error("Erro no login:", e);
     } finally {
       setLoading(false);
     }
@@ -50,58 +60,76 @@ export default function BemVindo() {
   if (loading) {
     return (
       <div className="loading-container">
-        <div className="loading-spinner"></div>
+        <div className="loading-spinner" />
       </div>
     );
   }
 
   return (
-    <div className="bemvindo">
+    <div className="login-page">
       <h1>Painel Administrativo</h1>
-      <form className="formulario" onSubmit={(e) => e.preventDefault()}>
-        <div className="form-group">
-          <label>
+      <form className="login-form" onSubmit={(e) => e.preventDefault()}>
+        <div className="login-form-group">
+          <label className="login-label">
             <FaUser /> Login
           </label>
           <input
             value={usuario}
-            onChange={(e) => setUsuario(e.target.value)}
+            onChange={(e) => {
+              setUsuario(e.target.value);
+              setError("");
+            }}
             onKeyPress={handleKeyPress}
-            className="input"
+            className="login-input"
             placeholder="Digite seu Login"
             type="text"
             autoComplete="username"
+            disabled={loading}
           />
         </div>
-        <div className="form-group">
-          <label>
+        <div className="login-form-group">
+          <label className="login-label">
             <FaLock /> Senha
           </label>
           <input
             value={senha}
-            onChange={(e) => setSenha(e.target.value)}
+            onChange={(e) => {
+              setSenha(e.target.value);
+              setError("");
+            }}
             onKeyPress={handleKeyPress}
-            className="input"
+            className="login-input"
             placeholder="Digite sua Senha"
             type="password"
             autoComplete="current-password"
+            disabled={loading}
           />
         </div>
+        {error && (
+          <div className="login-error-message">
+            <FaExclamationCircle />
+            {error}
+          </div>
+        )}
         <div>
-          <button className="botao" onClick={loginUsuario}>
-            <FaSignInAlt style={{ marginRight: '8px' }} /> Entrar
+          <button 
+            className="login-button" 
+            onClick={loginUsuario}
+            disabled={loading}
+          >
+            <FaSignInAlt /> Entrar
           </button>
         </div>
-        <p className="mensagem">
-          ou{" "}
-          <Link to="/registrar" className="link-a">
-            <FaUserPlus style={{ marginRight: '4px' }} />
+        <p className="login-message">
+          ou
+          <Link to="/registrar" className="login-link">
+            <FaUserPlus />
             fazer cadastro
           </Link>
         </p>
       </form>
-      <Link className="cliente-link" to="/painel">
-        <FaUsers style={{ marginRight: '8px' }} />
+      <Link className="login-client-link" to="/painel">
+        <FaUsers />
         Entrar como cliente
       </Link>
     </div>

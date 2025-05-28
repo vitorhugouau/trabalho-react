@@ -13,7 +13,13 @@ import {
   FaMinus,
   FaCheck,
   FaShoppingBag,
-  FaRegSadTear
+  FaRegSadTear,
+  FaFilter,
+  FaSearch,
+  FaTag,
+  FaBox,
+  FaDollarSign,
+  FaInfoCircle
 } from "react-icons/fa";
 import axios from "axios";
 import { urlApi, user } from "../url";
@@ -26,6 +32,11 @@ export default function Painel() {
   const [nome, setNome] = useState("");
   const [error, setError] = useState(null);
   const [mostrarCarrinho, setMostrarCarrinho] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [categorias, setCategorias] = useState([]);
+  const [categoriaAtiva, setCategoriaAtiva] = useState("todas");
+  const [mostrarFiltros, setMostrarFiltros] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
   const navigate = useNavigate();
 
   const getProdutos = async () => {
@@ -34,6 +45,8 @@ export default function Painel() {
     try {
       const response = await axios.get(`${urlApi}/produtos/${user}`);
       setProdutos(response.data);
+      const uniqueCategories = [...new Set(response.data.map(prod => prod.categoria))];
+      setCategorias(uniqueCategories);
     } catch (e) {
       setError("Não foi possível carregar os produtos. Tente novamente mais tarde.");
       console.error(e);
@@ -109,6 +122,17 @@ export default function Painel() {
     0
   );
 
+  const produtosFiltrados = produtos.filter(produto => {
+    const matchesSearch = produto.nome.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         produto.descricao.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesCategoria = categoriaAtiva === "todas" || produto.categoria === categoriaAtiva;
+    return matchesSearch && matchesCategoria;
+  });
+
+  const openProductDetails = (produto) => {
+    setSelectedProduct(produto);
+  };
+
   if (loading) {
     return (
       <div className="loading">
@@ -126,6 +150,51 @@ export default function Painel() {
         </h1>
 
         <div className="header-buttons">
+          <div className="search-filter-container">
+            <div className="search-bar">
+              <FaSearch />
+              <input
+                type="text"
+                placeholder="Buscar produtos..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </div>
+            
+            <div className="filter-container">
+              <button 
+                className="filter-button"
+                onClick={() => setMostrarFiltros(!mostrarFiltros)}
+              >
+                <FaFilter />
+                <span>Filtrar</span>
+              </button>
+              
+              {mostrarFiltros && (
+                <div className="filter-dropdown">
+                  <h4>Categorias</h4>
+                  <div className="filter-options">
+                    <button
+                      className={`category-filter ${categoriaAtiva === "todas" ? "active" : ""}`}
+                      onClick={() => setCategoriaAtiva("todas")}
+                    >
+                      Todas
+                    </button>
+                    {categorias.map((cat) => (
+                      <button
+                        key={cat}
+                        className={`category-filter ${categoriaAtiva === cat ? "active" : ""}`}
+                        onClick={() => setCategoriaAtiva(cat)}
+                      >
+                        {cat}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+
           <button 
             className="cart-toggle" 
             onClick={() => setMostrarCarrinho(!mostrarCarrinho)}
@@ -160,8 +229,8 @@ export default function Painel() {
 
         {produtos.length > 0 && (
           <div className="products-grid">
-            {produtos.map((prod) => (
-              <div key={prod._id} className="product-card">
+            {produtosFiltrados.map((prod) => (
+              <div key={prod._id} className="product-card" onClick={() => openProductDetails(prod)}>
                 <img src={prod.imagem || "/img/sem-imagem.jpg"} alt={prod.nome} />
                 <h4>{prod.nome}</h4>
                 <p className="descricao">{prod.descricao}</p>
@@ -171,7 +240,10 @@ export default function Painel() {
                     currency: 'BRL'
                   }).format(prod.preco)}
                 </p>
-                <button onClick={() => adicionarAoCarrinho(prod)}>
+                <button onClick={(e) => {
+                  e.stopPropagation(); // Prevent modal from opening when clicking the button
+                  adicionarAoCarrinho(prod);
+                }}>
                   <FaShoppingCart /> Adicionar ao Carrinho
                 </button>
               </div>
@@ -179,6 +251,64 @@ export default function Painel() {
           </div>
         )}
       </section>
+
+      {/* Product Details Modal */}
+      {selectedProduct && (
+        <div className="modal-overlay" onClick={() => setSelectedProduct(null)}>
+          <div className="modal-produto" onClick={(e) => e.stopPropagation()}>
+            <button className="btn-fechar" onClick={() => setSelectedProduct(null)}>
+              <FaTimes />
+            </button>
+
+            <div className="produto-detalhes">
+              <div className="produto-imagem">
+                <img 
+                  src={selectedProduct.imagem || "/img/sem-imagem.jpg"} 
+                  alt={selectedProduct.nome} 
+                />
+              </div>
+
+              <div className="produto-info">
+                <h2>{selectedProduct.nome}</h2>
+                
+                <div className="info-item">
+                  <FaTag />
+                  <span>Categoria: {selectedProduct.categoria || 'Não especificada'}</span>
+                </div>
+
+                <div className="info-item">
+                  <FaBox />
+                  <span>Estoque: {selectedProduct.estoque || 'Não especificado'}</span>
+                </div>
+
+                <div className="info-item">
+                  <FaDollarSign />
+                  <span>Preço: {new Intl.NumberFormat('pt-BR', {
+                    style: 'currency',
+                    currency: 'BRL'
+                  }).format(selectedProduct.preco)}</span>
+                </div>
+
+                <div className="info-item descricao-completa">
+                  <FaInfoCircle />
+                  <span>Descrição:</span>
+                  <p>{selectedProduct.descricao}</p>
+                </div>
+
+                <button 
+                  className="btn-adicionar-carrinho"
+                  onClick={() => {
+                    adicionarAoCarrinho(selectedProduct);
+                    setSelectedProduct(null);
+                  }}
+                >
+                  <FaShoppingCart /> Adicionar ao Carrinho
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {mostrarCarrinho && (
         <div className="modal-overlay" onClick={() => setMostrarCarrinho(false)}>

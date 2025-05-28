@@ -1,138 +1,266 @@
 .editar-produto {
-  max-width: 800px;
-  margin: 40px auto;
-  padding: 30px;
-  background: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
-  font-family: 'Segoe UI', sans-serif;
+  padding: 2rem;
+  background: #f8fafc;
+  min-height: 100vh;
 }
 
 .editar-produto h1 {
-  font-size: 26px;
-  color: #333;
-  margin-bottom: 25px;
-  text-align: center;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: #1e293b;
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
 }
 
-.editar-produto form {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+.icon-title {
+  color: #3b82f6;
+  width: 32px;
+  height: 32px;
+}
+
+form {
+  background: white;
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  max-width: 900px;
+  margin: 0 auto;
 }
 
 .input-row {
-  display: flex;
-  gap: 20px;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
 }
 
-.input-row label {
-  flex: 1;
+label {
   display: flex;
   flex-direction: column;
+  gap: 0.5rem;
+  color: #64748b;
   font-weight: 500;
-  color: #444;
+  font-size: 0.95rem;
 }
 
-.input-row input,
-.input-row select,
+label .icon {
+  width: 18px;
+  height: 18px;
+  margin-right: 0.5rem;
+  color: #3b82f6;
+}
+
+input,
+select,
 textarea {
-  margin-top: 6px;
-  padding: 10px 12px;
-  font-size: 15px;
-  border: 1px solid #ccc;
+  padding: 0.75rem 1rem;
+  border: 1px solid #e2e8f0;
   border-radius: 8px;
-  background-color: #f9f9f9;
-  transition: border-color 0.3s;
+  font-size: 0.95rem;
+  color: #1e293b;
+  background: white;
+  transition: all 0.3s ease;
 }
 
-.input-row input:focus,
-.input-row select:focus,
+input:focus,
+select:focus,
 textarea:focus {
-  border-color: #4caf50;
   outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+select {
+  cursor: pointer;
+  padding-right: 2.5rem;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2364748b'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 1rem;
+  appearance: none;
 }
 
 textarea {
-  min-height: 100px;
+  min-height: 120px;
   resize: vertical;
+  font-family: inherit;
 }
 
-.editar-produto img {
-  max-width: 200px;
+img {
+  width: 100%;
+  max-width: 300px;
   height: auto;
-  border-radius: 10px;
-  margin-top: 10px;
-  border: 2px solid #e0e0e0;
-  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  margin: 1.5rem 0;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  object-fit: cover;
 }
 
 .botoes {
   display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
   justify-content: flex-end;
-  gap: 15px;
-  margin-top: 20px;
 }
 
-.botoes button {
-  padding: 10px 20px;
-  font-size: 16px;
-  font-weight: 500;
-  border: none;
+button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
   border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  border: none;
   cursor: pointer;
-  transition: background 0.3s ease;
 }
 
-.botoes button[type="submit"] {
-  background-color: #4caf50;
+button[type="submit"] {
+  background: #3b82f6;
   color: white;
 }
 
-.botoes button[type="submit"]:hover {
-  background-color: #43a047;
+button[type="submit"]:hover {
+  background: #2563eb;
+  transform: translateY(-2px);
 }
 
-.botoes button[type="button"] {
-  background-color: #ccc;
-  color: #333;
+button[type="button"] {
+  background: #f1f5f9;
+  color: #64748b;
 }
 
-.botoes button[type="button"]:hover {
-  background-color: #b0b0b0;
-}
-
-@media (max-width: 600px) {
-  .input-row {
-    flex-direction: column;
-  }
-
-  .editar-produto img {
-    max-width: 100%;
-  }
-}
-
-.icon,
-.icon-title,
-.icon-button {
-  vertical-align: middle;
-  margin-right: 8px;
-  stroke-width: 2;
-}
-
-.icon {
-  margin-bottom: 4px;
-}
-
-.icon-title {
-  width: 26px;
-  height: 26px;
-  color: #4caf50;
-  margin-right: 10px;
+button[type="button"]:hover {
+  background: #e2e8f0;
+  transform: translateY(-2px);
 }
 
 .icon-button {
   width: 18px;
   height: 18px;
+}
+
+/* Loading State */
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+/* Error States */
+input:invalid,
+select:invalid,
+textarea:invalid {
+  border-color: #ef4444;
+  background-color: #fef2f2;
+}
+
+/* Success States */
+input:valid:not(:placeholder-shown),
+select:valid:not(:placeholder-shown),
+textarea:valid:not(:empty) {
+  border-color: #10b981;
+  background-color: #f0fdf4;
+}
+
+/* Hover States */
+input:hover,
+select:hover,
+textarea:hover {
+  border-color: #94a3b8;
+}
+
+/* Disabled States */
+input:disabled,
+select:disabled,
+textarea:disabled {
+  background-color: #f8fafc;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .editar-produto {
+    padding: 1rem;
+  }
+
+  form {
+    padding: 1.5rem;
+  }
+
+  .input-row {
+    grid-template-columns: 1fr;
+  }
+
+  .botoes {
+    flex-direction: column;
+  }
+
+  button {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* Animações */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+form {
+  animation: slideIn 0.3s ease-out;
+}
+
+/* Tooltip para campos inválidos */
+input:invalid:not(:placeholder-shown)::after,
+select:invalid:not(:placeholder-shown)::after,
+textarea:invalid:not(:empty)::after {
+  content: "Este campo é obrigatório";
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  background: #ef4444;
+  color: white;
+  padding: 0.5rem;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.3s ease;
+}
+
+input:invalid:not(:placeholder-shown):hover::after,
+select:invalid:not(:placeholder-shown):hover::after,
+textarea:invalid:not(:empty):hover::after {
+  opacity: 1;
+  transform: translateY(0);
 }

@@ -6,17 +6,20 @@ import { useEffect, useState } from "react";
 import Loading from "../../components/Loading";
 import { useNavigate } from "react-router-dom";
 import {
-  FaPlus,
-  FaEdit,
-  FaTrash,
-  FaSearch,
-  FaSort,
-  FaBox,
-  FaFilter,
-  FaDownload,
-  FaExclamationTriangle,
-  FaCheckCircle
-} from "react-icons/fa";
+  Pencil,
+  Trash2,
+  Search,
+  ArrowUpDown,
+  Box,
+  Filter,
+  Download,
+  AlertTriangle,
+  CheckCircle,
+  ChartLine,
+  Package,
+  DollarSign,
+  Plus
+} from "lucide-react";
 
 export default function ProdutosAdmin() {
   const navigate = useNavigate();
@@ -28,6 +31,12 @@ export default function ProdutosAdmin() {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortConfig, setSortConfig] = useState({ key: null, direction: 'ascending' });
   const [filteredProdutos, setFilteredProdutos] = useState([]);
+  const [estatisticas, setEstatisticas] = useState({
+    totalProdutos: 0,
+    valorTotal: 0,
+    produtosBaixoEstoque: 0,
+    mediaPrecos: 0
+  });
 
   const getProdutos = async () => {
     setLoading(true);
@@ -35,6 +44,20 @@ export default function ProdutosAdmin() {
       const response = await axios.get(`${urlApi}/produtos/${usuario}`);
       setProdutos(response.data);
       setFilteredProdutos(response.data);
+      
+      // Calcular estatísticas
+      const total = response.data.length;
+      const valorTotal = response.data.reduce((acc, prod) => acc + (prod.preco * prod.quantidade), 0);
+      const baixoEstoque = response.data.filter(prod => prod.quantidade < 10).length;
+      const mediaPrecos = response.data.reduce((acc, prod) => acc + prod.preco, 0) / total;
+
+      setEstatisticas({
+        totalProdutos: total,
+        valorTotal,
+        produtosBaixoEstoque: baixoEstoque,
+        mediaPrecos
+      });
+
     } catch (e) {
       console.error(e);
       alert("Erro ao buscar produtos");
@@ -45,7 +68,6 @@ export default function ProdutosAdmin() {
 
   useEffect(() => {
     getProdutos();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -115,6 +137,33 @@ export default function ProdutosAdmin() {
     document.body.removeChild(link);
   };
 
+  const estatisticasCards = [
+    {
+      icon: <Package />,
+      label: "Total de Produtos",
+      value: estatisticas.totalProdutos,
+      color: "#3b82f6"
+    },
+    {
+      icon: <DollarSign />,
+      label: "Valor Total em Estoque",
+      value: `R$ ${estatisticas.valorTotal.toFixed(2)}`,
+      color: "#10b981"
+    },
+    {
+      icon: <AlertTriangle />,
+      label: "Produtos Baixo Estoque",
+      value: estatisticas.produtosBaixoEstoque,
+      color: "#f59e0b"
+    },
+    {
+      icon: <ChartLine />,
+      label: "Preço Médio",
+      value: `R$ ${estatisticas.mediaPrecos.toFixed(2)}`,
+      color: "#6366f1"
+    }
+  ];
+
   if (loading) {
     return <Loading />;
   }
@@ -124,22 +173,37 @@ export default function ProdutosAdmin() {
       <div className="header-container">
         <div className="header-titulo">
           <div className="titulo-principal">
-            <FaBox className="icon-titulo" />
+            <Box className="icon-titulo" />
             <h1>Produtos</h1>
           </div>
           <div className="header-actions">
             <button className="btn-exportar" onClick={exportarProdutos}>
-              <FaDownload /> Exportar
+              <Download /> Exportar CSV
             </button>
             <button className="btn-adicionar" onClick={criarProduto}>
-              <FaPlus /> Novo Produto
+              <Plus /> Novo Produto
             </button>
           </div>
         </div>
 
+        {/* Cards de Estatísticas */}
+        <div className="estatisticas-grid">
+          {estatisticasCards.map((card, index) => (
+            <div key={index} className="estatistica-card" style={{'--card-color': card.color}}>
+              <div className="estatistica-icon">
+                {card.icon}
+              </div>
+              <div className="estatistica-info">
+                <h3>{card.value}</h3>
+                <p>{card.label}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+
         <div className="filtros-container">
           <div className="search-bar">
-            <FaSearch />
+            <Search />
             <input
               type="text"
               placeholder="Pesquisar produtos..."
@@ -147,9 +211,14 @@ export default function ProdutosAdmin() {
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
-          <button className="btn-filtrar">
-            <FaFilter /> Filtros
-          </button>
+          <div className="filtros-actions">
+            <button className="btn-filtrar">
+              <Filter /> Filtros
+            </button>
+            <span className="resultados-count">
+              {filteredProdutos.length} produtos encontrados
+            </span>
+          </div>
         </div>
       </div>
 
@@ -159,24 +228,24 @@ export default function ProdutosAdmin() {
             <tr>
               <th>Imagem</th>
               <th onClick={() => handleSort('nome')} className="sortable">
-                Nome {sortConfig.key === 'nome' && <FaSort />}
+                Nome {sortConfig.key === 'nome' && <ArrowUpDown />}
               </th>
               <th onClick={() => handleSort('categoria')} className="sortable">
-                Categoria {sortConfig.key === 'categoria' && <FaSort />}
+                Categoria {sortConfig.key === 'categoria' && <ArrowUpDown />}
               </th>
               <th>Descrição</th>
               <th onClick={() => handleSort('quantidade')} className="sortable">
-                Quantidade {sortConfig.key === 'quantidade' && <FaSort />}
+                Quantidade {sortConfig.key === 'quantidade' && <ArrowUpDown />}
               </th>
               <th onClick={() => handleSort('preco')} className="sortable">
-                Preço (R$) {sortConfig.key === 'preco' && <FaSort />}
+                Preço (R$) {sortConfig.key === 'preco' && <ArrowUpDown />}
               </th>
               <th>Ações</th>
             </tr>
           </thead>
           <tbody>
             {filteredProdutos.map((produto) => (
-              <tr key={produto._id}>
+              <tr key={produto._id} className="produto-row">
                 <td className="imagem-cell">
                   <div className="imagem-container">
                     <img
@@ -192,12 +261,12 @@ export default function ProdutosAdmin() {
                 <td>
                   <span className="categoria-tag">{produto.categoria}</span>
                 </td>
-                <td>{produto.descricao}</td>
+                <td className="descricao-cell">{produto.descricao}</td>
                 <td>
                   <span className={`quantidade-badge ${produto.quantidade < 10 ? 'baixo' : 'normal'}`}>
                     {produto.quantidade}
-                    {produto.quantidade < 10 && <FaExclamationTriangle className="warning-icon" />}
-                    {produto.quantidade >= 10 && <FaCheckCircle className="check-icon" />}
+                    {produto.quantidade < 10 && <AlertTriangle className="warning-icon" />}
+                    {produto.quantidade >= 10 && <CheckCircle className="check-icon" />}
                   </span>
                 </td>
                 <td className="preco-cell">
@@ -213,7 +282,7 @@ export default function ProdutosAdmin() {
                       onClick={() => editarProduto(produto)}
                       title="Editar produto"
                     >
-                      <FaEdit />
+                      <Pencil />
                     </button>
                     <button
                       className="btn-acao btn-excluir"
@@ -227,7 +296,7 @@ export default function ProdutosAdmin() {
                       }}
                       title="Excluir produto"
                     >
-                      <FaTrash />
+                      <Trash2 />
                     </button>
                   </div>
                 </td>
